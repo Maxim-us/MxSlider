@@ -1,0 +1,20 @@
+.mx-slider_wrap{
+	position: relative;
+	display: table;
+	border-bottom: 1px solid #999;
+	width: 90%;
+	margin: 0px auto;
+}
+.mx-slide{
+	position: absolute;
+	width: 100%;
+}
+.mx-slide img{
+	width: 100%;
+}
+.mx-prev{
+	float: left;
+}
+.mx-next{
+	float: right;
+}
