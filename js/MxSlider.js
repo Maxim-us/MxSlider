@@ -2,7 +2,9 @@
 
 	$.defaultConfig = {
 		nav: true, // create forward and backward buttons. If set to "false", the navigation will not be
-		timeSlide: 1000 // the length of time
+		timeSlide: 1000, // the length of time
+		autoPlay: true, // enable autoplay
+		autoPlaySpeed: 3000 // autoplay speed
 	};
 
 	$.fn.MxSlider = function( params ){
@@ -93,7 +95,7 @@
 						keyMotion = false;
 						$( '.mx-slide' ).each( function(){
 							if( $( this ).css( 'z-index' ) == countSlide ){
-								$( this ).animate( { 'left': '100%' }, settings.timeSlide );
+								$( this ).animate( { 'left': '-100%' }, settings.timeSlide );
 							}
 						});
 
@@ -120,7 +122,7 @@
 
 			PrevSlide: function(){
 
-				$( '.mx-prev' ).on( 'click', function(){
+				$( '.mx-prev' ).on( 'click', function(){								
 
 					if( keyMotion == true ){
 
@@ -128,7 +130,7 @@
 
 						$( '.mx-slide' ).each( function(){
 							if( $( this ).css( 'z-index' ) == 1 ){
-								$( this ).css( 'left', '100%' );
+								$( this ).css( 'left', '-100%' );
 							}
 						});
 
@@ -146,12 +148,48 @@
 							} );							
 						},100 );
 
-						setTimeout( function(){ keyMotion = true; }, settings.timeSlide + 200 );	
+						setTimeout( function(){
+							keyMotion = true;
+						}, settings.timeSlide + 200 );	
 					}									
 
 				});
 
 			},
+
+			Autoplay: function(){
+
+				if( settings.autoPlay == true ){
+
+					setInterval( function(){
+						if( keyMotion == true  ){
+							keyMotion = false;
+							$( '.mx-slide' ).each( function(){
+								if( $( this ).css( 'z-index' ) == countSlide ){
+									$( this ).animate( { 'left': '-100%' }, settings.timeSlide );
+								}
+							});
+
+							setTimeout( function(){
+								$( '.mx-slide' ).each( function(){
+									getZi = $( this ).css( 'z-index' );
+									$( this ).css( 'z-index', parseInt( getZi ) + 1 );
+								} );
+
+								$( '.mx-slide' ).each( function(){
+									if( $( this ).css( 'z-index' ) == countSlide + 1 ){
+										$( this ).css( 'z-index', '1' );
+										$( this ).css( 'left', '0%' );
+									}								
+								} );
+								keyMotion = true;
+							}, settings.timeSlide + 100 );		
+						}
+					},settings.autoPlaySpeed );
+
+				}				
+
+			},			
 
 			// Motion function
 			ContrMotion: function(){
@@ -159,6 +197,8 @@
 				this.NextSlide();
 				// prev slider
 				this.PrevSlide();
+				// autoplay
+				this.Autoplay();
 			}
 			
 		};

@@ -1,3 +1,8 @@
+.MxSlider{
+	width: 100%;
+	float: left;
+	position: relative;
+}
 .mx-slider_wrap{
 	position: relative;
 	display: block;
@@ -16,6 +21,23 @@
 }
 .mx-slide img{
 	width: 100%;
+}
+
+/* Navigation */
+.mx-navigation{
+	position: absolute;
+	float: left;
+	width: 100%;
+	top: 50%;
+	z-index: 888;
+}
+.mx-prev, .mx-next{
+	display: table;
+	width: 40px;
+	height: 40px;
+	background-color: #fff;
+	font-size: 0px;
+	cursor: pointer;
 }
 .mx-prev{
 	float: left;
