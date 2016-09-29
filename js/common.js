@@ -1,5 +1,5 @@
 $(document).ready(function(){		
-	$( '.mx-slider_wrap' ).MxSlider();
+	$( '.ZI-slider' ).MxSlider();
 })
 
 

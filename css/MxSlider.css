@@ -1,13 +1,18 @@
 .mx-slider_wrap{
 	position: relative;
-	display: table;
-	border-bottom: 1px solid #999;
-	width: 90%;
+	display: block;
+	float: left;
+	width: 100%;
+	height: auto;
 	margin: 0px auto;
+	overflow: hidden;
 }
 .mx-slide{
 	position: absolute;
 	width: 100%;
+	display: table;
+	float: left;
+	left: 0%;
 }
 .mx-slide img{
 	width: 100%;
