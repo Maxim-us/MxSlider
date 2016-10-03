@@ -2,6 +2,7 @@
 
 	$.defaultConfig = {
 		nav: true, // create forward and backward buttons. If set to "false", the navigation will not be
+		dots: true,
 		timeSlide: 1000, // the length of time 
 		autoPlay: false, // enable autoPlay
 		autoPlaySpeed: 5000 // autoPlay speed
@@ -56,6 +57,19 @@
 				} );				
 			},
 
+			CreateDonsNavigation: function(){
+				if( settings.dots == true ){
+					$( '<div class="mx-nav_dots"></div>' ).appendTo( '.MxSlider' );
+					var d = 1;
+					$( '.mx-slide' ).each( function(){
+						$( '<span>' + d + '</span>' ).appendTo( '.mx-nav_dots' );
+						d++;
+					} );
+					$( '.mx-nav_dots span' ).eq( 0 ).addClass( 'dotActive' );
+					
+				}
+			},
+
 			// Init function
 			init: function(){
 				// add class
@@ -72,6 +86,8 @@
 				this.GetHeightItem();
 				// create navigation
 				this.CreateNavigation();
+				// create dots-navigation
+				this.CreateDonsNavigation();
 			}
 		};
 
@@ -105,6 +121,22 @@
 							$( this ).css( 'left', '0%' );
 						}								
 					} );
+
+					// dots active
+					if( settings.dots == true ){
+						$( '.mx-slide' ).each( function(){
+							zInex = $( this ).css( 'z-index' );
+							if( zInex == countSlide ){
+								nthChild = $( this ).index();
+								if( nthChild == countSlide ){
+									nthChild = 0;
+								}
+								$( '.mx-nav_dots span' ).removeClass( 'dotActive' );
+								$( '.mx-nav_dots span' ).eq( nthChild ).addClass( 'dotActive' );						
+							}					
+						} );
+					}					
+
 					keyMotion = true;
 				}, settings.timeSlide + 100 );
 
@@ -137,6 +169,21 @@
 				},100 );
 
 				setTimeout( function(){
+					// dots active
+					if( settings.dots == true ){
+						$( '.mx-slide' ).each( function(){
+							zInex = $( this ).css( 'z-index' );
+							if( zInex == countSlide ){
+								var nthChild = $( this ).index();
+								if( nthChild == 1 ){
+									nthChild = countSlide;
+								}
+								$( '.mx-nav_dots span' ).removeClass( 'dotActive' );
+								$( '.mx-nav_dots span' ).eq( nthChild ).addClass( 'dotActive' );						
+							}					
+						} );
+					}		
+
 					keyMotion = true;
 				}, settings.timeSlide + 200 );	
 
@@ -157,6 +204,10 @@
 			clearInterval( autoPlayInit );
 			AutoPlay();
 		}
+
+		/*-------------------------------------------------
+		*               Functional init
+		--------------------------------------------------*/
 
 		var
 		keyMotion = true,
@@ -189,7 +240,7 @@
 
 					$( '.mx-slide' ).each( function(){
 						thisSilderZI = parseInt( $( this ).css( 'z-index' ) );
-						if( thisSilderZI === 4 ){
+						if( thisSilderZI == countSlide ){
 							thisSilderNth = $( this ).index() + 1;								
 						}
 					} );
@@ -216,6 +267,19 @@
 													$( this ).css( 'left', '0%' );
 												}								
 											} );
+
+											// dots active
+											if( settings.dots == true ){
+												$( '.mx-slide' ).each( function(){
+													zInex = $( this ).css( 'z-index' );
+													if( zInex == countSlide ){
+														nthChild = $( this ).index();														
+														$( '.mx-nav_dots span' ).removeClass( 'dotActive' );
+														$( '.mx-nav_dots span' ).eq( nthChild ).addClass( 'dotActive' );						
+													}					
+												} );
+											}	
+
 										}, 300 );
 
 								} else{
@@ -249,7 +313,20 @@
 											$( this ).css( 'z-index', countSlide );
 											$( this ).animate(  { 'left': '0%' }, 200  );
 										}
-									} );							
+									} );
+
+									// dots active
+									if( settings.dots == true ){
+										$( '.mx-slide' ).each( function(){
+											zInex = $( this ).css( 'z-index' );
+											if( zInex == countSlide ){
+												nthChild = $( this ).index();												
+												$( '.mx-nav_dots span' ).removeClass( 'dotActive' );
+												$( '.mx-nav_dots span' ).eq( nthChild ).addClass( 'dotActive' );						
+											}					
+										} );
+									}	
+
 								},100 );
 
 							} else{

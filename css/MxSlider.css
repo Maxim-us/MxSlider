@@ -45,6 +45,28 @@
 .mx-next{
 	float: right;
 }
+.mx-nav_dots{
+	position: absolute;
+	width: 100%;
+	top: 85%;
+    text-align: center;
+	z-index: 889;
+}
+.mx-nav_dots span{
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	margin: 3px;
+	font-size: 0px;
+	border-radius: 50%;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border: 2px solid #333;
+	background-color: #fff;
+}
+.dotActive{
+	background-color: #333 !important;
+}
 
 /**/
 .ZI-slider h1{
