@@ -1,5 +1,5 @@
 .MxSlider{
-	width: 100%;
+	width: 50%;
 	float: left;
 	position: relative;
 }
@@ -44,4 +44,11 @@
 }
 .mx-next{
 	float: right;
+}
+
+/**/
+.ZI-slider h1{
+	position: absolute;
+	top: 100px;
+	left: 400px;
 }

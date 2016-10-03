@@ -1,5 +1,7 @@
 $(document).ready(function(){		
-	$( '.ZI-slider' ).MxSlider();
+	$( '.ZI-slider' ).MxSlider( {
+		autoPlay: true
+	} );
 })
 
 

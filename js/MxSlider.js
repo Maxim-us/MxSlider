@@ -2,9 +2,9 @@
 
 	$.defaultConfig = {
 		nav: true, // create forward and backward buttons. If set to "false", the navigation will not be
-		timeSlide: 1000, // the length of time
-		autoPlay: true, // enable autoplay
-		autoPlaySpeed: 3000 // autoplay speed
+		timeSlide: 1000, // the length of time 
+		autoPlay: false, // enable autoPlay
+		autoPlaySpeed: 5000 // autoPlay speed
 	};
 
 	$.fn.MxSlider = function( params ){
@@ -17,10 +17,10 @@
 		/* ---------------------------------------------
 		*                Create slider
 		----------------------------------------------*/
-		var countSlide,
-			heightSlide,
-
-			CreateSlider = {
+		var
+		countSlide,
+		heightSlide,
+		CreateSlider = {
 
 			CreateClass: function(){
 				root.addClass( 'mx-slider_wrap' );
@@ -81,115 +81,187 @@
 		/* -------------------------------------------------
 		*                Functions slider
 		--------------------------------------------------*/
-		var 
-			keyMotion = true,
 
-			MotionSlide = {
+		// func play next
+		function PlayNext(){
+			if( keyMotion == true ){
+				keyMotion = false;
+
+				$( '.mx-slide' ).each( function(){
+					if( $( this ).css( 'z-index' ) == countSlide ){
+						$( this ).animate( { 'left': '-100%' }, settings.timeSlide );
+					}
+				});
+
+				setTimeout( function(){
+					$( '.mx-slide' ).each( function(){
+						getZi = $( this ).css( 'z-index' );
+						$( this ).css( 'z-index', parseInt( getZi ) + 1 );
+					} );
+
+					$( '.mx-slide' ).each( function(){
+						if( $( this ).css( 'z-index' ) == countSlide + 1 ){
+							$( this ).css( 'z-index', '1' );
+							$( this ).css( 'left', '0%' );
+						}								
+					} );
+					keyMotion = true;
+				}, settings.timeSlide + 100 );
+
+			}	
+		}
+
+		// func play back
+		function PlayBack(){
+			if( keyMotion == true ){
+				keyMotion = false;
+
+				$( '.mx-slide' ).each( function(){
+					if( $( this ).css( 'z-index' ) == 1 ){
+						$( this ).css( 'left', '-100%' );
+					}
+				});
+
+				setTimeout( function(){
+					$( '.mx-slide' ).each( function(){
+						getZi = $( this ).css( 'z-index' );
+						$( this ).css( 'z-index', parseInt( getZi ) - 1 );
+					} );
+
+					$( '.mx-slide' ).each( function(){
+						if( $( this ).css( 'z-index' ) == 0 ){
+							$( this ).css( 'z-index', countSlide );
+							$( this ).animate(  { 'left': '0%' }, settings.timeSlide  );
+						}
+					} );							
+				},100 );
+
+				setTimeout( function(){
+					keyMotion = true;
+				}, settings.timeSlide + 200 );	
+
+			}
+		}
+
+		// func autoplay
+		function AutoPlay(){
+			if( settings.autoPlay == true ){				
+				autoPlayInit = setInterval( function(){
+					PlayNext();
+				},settings.autoPlaySpeed );
+			}
+		}
+
+		// func autoplay amend
+		function AutoPlayAmend(){
+			clearInterval( autoPlayInit );
+			AutoPlay();
+		}
+
+		var
+		keyMotion = true,
+		autoPlayInit = null,
+		MotionSlide = {
 
 			NextSlide: function(){
-
 				$( '.mx-next' ).on( 'click', function(){
-
-					if( keyMotion == true ){
-
-						keyMotion = false;
-						$( '.mx-slide' ).each( function(){
-							if( $( this ).css( 'z-index' ) == countSlide ){
-								$( this ).animate( { 'left': '-100%' }, settings.timeSlide );
-							}
-						});
-
-						setTimeout( function(){
-							$( '.mx-slide' ).each( function(){
-								getZi = $( this ).css( 'z-index' );
-								$( this ).css( 'z-index', parseInt( getZi ) + 1 );
-							} );
-
-							$( '.mx-slide' ).each( function(){
-								if( $( this ).css( 'z-index' ) == countSlide + 1 ){
-									$( this ).css( 'z-index', '1' );
-									$( this ).css( 'left', '0%' );
-								}								
-							} );
-							keyMotion = true;
-						}, settings.timeSlide + 100 );
-
-					}									
-
+					PlayNext();
+					AutoPlayAmend();
 				} );
-
 			},
 
 			PrevSlide: function(){
-
-				$( '.mx-prev' ).on( 'click', function(){								
-
-					if( keyMotion == true ){
-
-						keyMotion = false;
-
-						$( '.mx-slide' ).each( function(){
-							if( $( this ).css( 'z-index' ) == 1 ){
-								$( this ).css( 'left', '-100%' );
-							}
-						});
-
-						setTimeout( function(){
-							$( '.mx-slide' ).each( function(){
-								getZi = $( this ).css( 'z-index' );
-								$( this ).css( 'z-index', parseInt( getZi ) - 1 );
-							} );
-
-							$( '.mx-slide' ).each( function(){
-								if( $( this ).css( 'z-index' ) == 0 ){
-									$( this ).css( 'z-index', countSlide );
-									$( this ).animate(  { 'left': '0%' }, settings.timeSlide  );
-								}
-							} );							
-						},100 );
-
-						setTimeout( function(){
-							keyMotion = true;
-						}, settings.timeSlide + 200 );	
-					}									
-
+				$( '.mx-prev' ).on( 'click', function(){
+					PlayBack();
+					AutoPlayAmend();
 				});
-
 			},
 
-			Autoplay: function(){
+			AutoPlayInt: function(){
+				AutoPlay();
+			},
 
-				if( settings.autoPlay == true ){
+			DotsMotion: function(){
+				$( '.mx-nav_dots span' ).on( 'click', function(){
+					AutoPlayAmend();
+					var thisDonNum = $( this ).text(),
+						thisSilderNth;
 
-					setInterval( function(){
-						if( keyMotion == true  ){
-							keyMotion = false;
-							$( '.mx-slide' ).each( function(){
-								if( $( this ).css( 'z-index' ) == countSlide ){
-									$( this ).animate( { 'left': '-100%' }, settings.timeSlide );
-								}
-							});
-
-							setTimeout( function(){
-								$( '.mx-slide' ).each( function(){
-									getZi = $( this ).css( 'z-index' );
-									$( this ).css( 'z-index', parseInt( getZi ) + 1 );
-								} );
-
-								$( '.mx-slide' ).each( function(){
-									if( $( this ).css( 'z-index' ) == countSlide + 1 ){
-										$( this ).css( 'z-index', '1' );
-										$( this ).css( 'left', '0%' );
-									}								
-								} );
-								keyMotion = true;
-							}, settings.timeSlide + 100 );		
+					$( '.mx-slide' ).each( function(){
+						thisSilderZI = parseInt( $( this ).css( 'z-index' ) );
+						if( thisSilderZI === 4 ){
+							thisSilderNth = $( this ).index() + 1;								
 						}
-					},settings.autoPlaySpeed );
+					} );
+					
+					if( thisSilderNth < thisDonNum && keyMotion == true ){
+						var dotIntervalNext = setInterval( function(){
+								keyMotion = false;
+								if( thisSilderNth != thisDonNum ){									
+										$( '.mx-slide' ).each( function(){
+											if( $( this ).css( 'z-index' ) == countSlide ){
+												$( this ).animate( { 'left': '-100%' }, 200 );
+											}
+										});
 
-				}				
+										setTimeout( function(){
+											$( '.mx-slide' ).each( function(){
+												getZi = $( this ).css( 'z-index' );
+												$( this ).css( 'z-index', parseInt( getZi ) + 1 );
+											} );
 
-			},			
+											$( '.mx-slide' ).each( function(){
+												if( $( this ).css( 'z-index' ) == countSlide + 1 ){
+													$( this ).css( 'z-index', '1' );
+													$( this ).css( 'left', '0%' );
+												}								
+											} );
+										}, 300 );
+
+								} else{
+									clearInterval( dotIntervalNext );
+									keyMotion = true;
+								}								
+								thisSilderNth++;
+						},400 );
+
+					} else if( thisSilderNth > thisDonNum && keyMotion == true ){
+
+						var
+						dotIntervalPrev = setInterval( function(){
+							keyMotion = false;
+							if( thisSilderNth != thisDonNum ){
+
+								$( '.mx-slide' ).each( function(){
+									if( $( this ).css( 'z-index' ) == 1 ){
+										$( this ).css( 'left', '-100%' );
+									}
+								});
+
+								setTimeout( function(){
+									$( '.mx-slide' ).each( function(){
+										getZi = $( this ).css( 'z-index' );
+										$( this ).css( 'z-index', parseInt( getZi ) - 1 );
+									} );
+
+									$( '.mx-slide' ).each( function(){
+										if( $( this ).css( 'z-index' ) == 0 ){
+											$( this ).css( 'z-index', countSlide );
+											$( this ).animate(  { 'left': '0%' }, 200  );
+										}
+									} );							
+								},100 );
+
+							} else{
+								clearInterval( dotIntervalPrev );
+								keyMotion = true;
+							}							
+							thisSilderNth--;
+						},400 );					
+
+					}
+				} );
+			},
 
 			// Motion function
 			ContrMotion: function(){
@@ -197,8 +269,10 @@
 				this.NextSlide();
 				// prev slider
 				this.PrevSlide();
-				// autoplay
-				this.Autoplay();
+				// autoPlay
+				this.AutoPlayInt();
+				// dots
+				this.DotsMotion();
 			}
 			
 		};
