@@ -1,39 +1,119 @@
 <!DOCTYPE html>
-<html class="js" lang="en">
+<html>
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<meta charset="UTF-8">
 		<title>MxSlider</title>
 		<meta name="viewport" content="initial-scale=1.0, width=device-width">
 		<link rel="stylesheet" href="css/MxSlider.css">
+		<style>
+			/* Styles for Bugs Bunny */
+			@import 'https://fonts.googleapis.com/css?family=Oswald';
+			body{
+				background-color: #bed1e4;
+			}
+			.mx-bugs_bunny{
+				width: 90%;
+				max-width: 700px;
+				margin: 40px auto;				
+			}
+			.ZI-slider{
+				border: 4px solid #27425d;
+			}
+			.mx-bugs_info{
+				position: absolute;
+				display: block;
+				max-width: 80%;
+				padding: 10px;
+				bottom: 40px;
+				background-color: rgba(39, 66, 93, 0.9);			
+			}
+			.mx-bugs_info a{				
+				font-family: 'Oswald', sans-serif;
+				color: #fff;
+				font-size: 18px;
+				text-decoration: none;
+			}
+			.mx-navigation {
+			    margin: 4px;
+			    top: 42%;
+			}
+			.mx-prev, .mx-next{
+				background-color: #27425d;
+			}
+			.mx-prev{
+				background-image: url(img/arr_l.png);
+				background-repeat: no-repeat;
+				background-position: 2px 5px;
+			}
+			.mx-next{
+				background-image: url(img/arr_r.png);
+				background-repeat: no-repeat;
+				background-position: 8px 5px;
+			}
+			.mx-nav_dots{
+				top: 88%;				
+			}
+			.mx-nav_dots span{
+				margin: 0px 4px;
+				border-radius: 50%;
+				-moz-border-radius: 50%;
+				-webkit-border-radius: 50%;
+				border: 3px solid #27425d;
+				background-color: #fff;
+			}
+			.mx-nav_dots span.dotActive{
+				background-color: #27425d;
+			}			
+		</style>
 	</head>	
 	<body>
-		
-		<div class="ZI-slider">
-			<div>
-				<img src="img/sky1.jpg" alt="" />
-				<h1>1</h1>
+		<!-- My box for the slider -->
+		<div class="mx-bugs_bunny">
+			<!-- Slider -->
+			<div class="ZI-slider">
+				<div>
+					<img src="img/slide1.png" alt="" />
+					<div class="mx-bugs_info">
+						<a href="http://looneytunes.wikia.com/wiki/Bugs_Bunny" target="_blank">
+							This article is about the adult version of Bugs Bunny. For the baby version of the character seen in Baby Looney Tunes, see Baby Bugs.
+						</a>
+					</div>
+				</div>
+				<div>
+					<img src="img/slide2.png" alt="" />
+					<div class="mx-bugs_info">
+						<a href="https://en.wikipedia.org/wiki/Bugs_Bunny" target="_blank">
+							Bugs Bunny is an animated cartoon character, created in 1940 by Leon Schlesinger Productions
+						</a>
+					</div>
+				</div>
+				<div>
+					<img src="img/slide3.png" alt="" />
+					<div class="mx-bugs_info">
+						<a href="http://www.slate.com/blogs/browbeat/2016/09/07/this_video_essay_explains_the_origin_of_looney_tunes_bugs_bunny_video.html" target="_blank">
+							Watch This Smart Video on How Bugs Bunny Went From Ordinary Looney Tunes Character to American Icon
+						</a>
+					</div>
+				</div>
 			</div>
-			<div>
-				<img src="img/sky2.jpg" alt="" />
-				<h1>2</h1>
-			</div>
-			<div>
-				<img src="img/sky3.jpg" alt="" />
-				<h1>3</h1>
-			</div>
-			<div>
-				<img src="img/sky3.jpg" alt="" />
-				<h1>4</h1>
-			</div>
+			<!-- Slider -->
 		</div>
+		<!-- My box for the slider -->
 		
 		<!-- Scripts -->	
 		<script src="js/jquery-1.11.3.js"></script>
 		<script src="js/MxSlider.js"></script>	
 		
-		<script src="js/common.js"></script>
+		<script>
+			$(document).ready(function(){		
+				$( '.ZI-slider' ).MxSlider( {
+					autoPlay: true,
+					dots: true,
+					timeSlide: 500
+				} );
+			})
+		</script>
 
-	</body>
-	
+	</body>	
 </html>
