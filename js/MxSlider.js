@@ -1,10 +1,23 @@
+/*
+* ###################################################
+* #                                                 #
+* #    Author: Marko Maksym                         #
+* M    WebSite: http://blognauki.in.ua/my-works/    M
+* #    Project name: MX-SLIDER                      #  
+* #    E-mail: markomaksym@gmail.com                #
+* X    Date of creation: 04.10.2016                 X
+* #    Last Modified:                               #
+* #                                                 #
+* ###################################################
+*/
+
 ;( function( $ ){
 
 	$.defaultConfig = {
 		nav: true, // create forward and backward buttons. If set to "false", the navigation will not be
-		dots: true,
+		dots: false, // buttons to navigate
 		timeSlide: 1000, // the length of time 
-		autoPlay: false, // enable autoPlay
+		autoPlay: false, // autoPlay
 		autoPlaySpeed: 5000 // autoPlay speed
 	};
 
@@ -42,8 +55,8 @@
 			},
 
 			GetHeightItem: function(){
-				heightSlide = root.children().eq(0).height();
-				setTimeout( function(){ root.css( 'height', heightSlide ); }, 500 );
+				heightSlide = root.children().eq(0).height() - 4;
+				setTimeout( function(){ root.css( 'height', heightSlide + 'px' ); }, 500 );
 			},
 
 			GetCountSlide: function(){
@@ -82,7 +95,7 @@
 				this.GetCountSlide();
 				// set z-index for slide
 				this.SetZIndex();
-				// set height
+				// get height
 				this.GetHeightItem();
 				// create navigation
 				this.CreateNavigation();
@@ -110,6 +123,7 @@
 				});
 
 				setTimeout( function(){
+
 					$( '.mx-slide' ).each( function(){
 						getZi = $( this ).css( 'z-index' );
 						$( this ).css( 'z-index', parseInt( getZi ) + 1 );
@@ -124,6 +138,7 @@
 
 					// dots active
 					if( settings.dots == true ){
+
 						$( '.mx-slide' ).each( function(){
 							zInex = $( this ).css( 'z-index' );
 							if( zInex == countSlide ){
@@ -135,8 +150,8 @@
 								$( '.mx-nav_dots span' ).eq( nthChild ).addClass( 'dotActive' );						
 							}					
 						} );
-					}					
 
+					}
 					keyMotion = true;
 				}, settings.timeSlide + 100 );
 
@@ -155,6 +170,7 @@
 				});
 
 				setTimeout( function(){
+
 					$( '.mx-slide' ).each( function(){
 						getZi = $( this ).css( 'z-index' );
 						$( this ).css( 'z-index', parseInt( getZi ) - 1 );
@@ -165,25 +181,24 @@
 							$( this ).css( 'z-index', countSlide );
 							$( this ).animate(  { 'left': '0%' }, settings.timeSlide  );
 						}
-					} );							
+					} );
+
 				},100 );
 
 				setTimeout( function(){
 					// dots active
 					if( settings.dots == true ){
+
 						$( '.mx-slide' ).each( function(){
 							zInex = $( this ).css( 'z-index' );
 							if( zInex == countSlide ){
 								var nthChild = $( this ).index();
-								if( nthChild == 1 ){
-									nthChild = countSlide;
-								}
 								$( '.mx-nav_dots span' ).removeClass( 'dotActive' );
 								$( '.mx-nav_dots span' ).eq( nthChild ).addClass( 'dotActive' );						
 							}					
 						} );
-					}		
 
+					}
 					keyMotion = true;
 				}, settings.timeSlide + 200 );	
 
@@ -248,7 +263,8 @@
 					if( thisSilderNth < thisDonNum && keyMotion == true ){
 						var dotIntervalNext = setInterval( function(){
 								keyMotion = false;
-								if( thisSilderNth != thisDonNum ){									
+								if( thisSilderNth != thisDonNum ){
+
 										$( '.mx-slide' ).each( function(){
 											if( $( this ).css( 'z-index' ) == countSlide ){
 												$( this ).animate( { 'left': '-100%' }, 200 );
@@ -256,6 +272,7 @@
 										});
 
 										setTimeout( function(){
+
 											$( '.mx-slide' ).each( function(){
 												getZi = $( this ).css( 'z-index' );
 												$( this ).css( 'z-index', parseInt( getZi ) + 1 );
@@ -270,6 +287,7 @@
 
 											// dots active
 											if( settings.dots == true ){
+
 												$( '.mx-slide' ).each( function(){
 													zInex = $( this ).css( 'z-index' );
 													if( zInex == countSlide ){
@@ -278,6 +296,7 @@
 														$( '.mx-nav_dots span' ).eq( nthChild ).addClass( 'dotActive' );						
 													}					
 												} );
+
 											}	
 
 										}, 300 );
@@ -303,6 +322,7 @@
 								});
 
 								setTimeout( function(){
+
 									$( '.mx-slide' ).each( function(){
 										getZi = $( this ).css( 'z-index' );
 										$( this ).css( 'z-index', parseInt( getZi ) - 1 );
@@ -317,6 +337,7 @@
 
 									// dots active
 									if( settings.dots == true ){
+
 										$( '.mx-slide' ).each( function(){
 											zInex = $( this ).css( 'z-index' );
 											if( zInex == countSlide ){
@@ -325,6 +346,7 @@
 												$( '.mx-nav_dots span' ).eq( nthChild ).addClass( 'dotActive' );						
 											}					
 										} );
+
 									}	
 
 								},100 );
@@ -355,7 +377,17 @@
 		};
 
 		/* Controller */
-		MotionSlide.ContrMotion();		
+		MotionSlide.ContrMotion();
+
+		// responsive
+		var resize;
+		$( window ).resize( function(){
+			clearTimeout( resize );
+			resize = setTimeout( function(){
+				heightSlide = root.children().eq(0).height() - 4;
+				root.css( 'height', heightSlide + 'px' );
+			},600 );
+		} );
 		
 	}
 

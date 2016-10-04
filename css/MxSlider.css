@@ -1,5 +1,17 @@
+/*
+* ###################################################
+* #                                                 #
+* #    Author: Marko Maksym                         #
+* M    WebSite: http://blognauki.in.ua/my-works/    M
+* #    Project name: MX-SLIDER                      #  
+* #    E-mail: markomaksym@gmail.com                #
+* X    Date of creation: 04.10.2016                 X
+* #    Last Modified:                               #
+* #                                                 #
+* ###################################################
+*/
 .MxSlider{
-	width: 50%;
+	width: 100%;
 	float: left;
 	position: relative;
 }
@@ -28,7 +40,7 @@
 	position: absolute;
 	float: left;
 	width: 100%;
-	top: 50%;
+	top: 47%;
 	z-index: 888;
 }
 .mx-prev, .mx-next{
@@ -63,14 +75,8 @@
 	-webkit-border-radius: 50%;
 	border: 2px solid #333;
 	background-color: #fff;
+	cursor: pointer;
 }
-.dotActive{
-	background-color: #333 !important;
-}
-
-/**/
-.ZI-slider h1{
-	position: absolute;
-	top: 100px;
-	left: 400px;
+.mx-nav_dots span.dotActive{
+	background-color: #333;
 }
